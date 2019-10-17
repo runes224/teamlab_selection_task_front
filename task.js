@@ -44,24 +44,25 @@ $(document).ready(function () {
         // data-id の 有無で新規登録か更新かを判定
         // 新規登録時
         if (id == "") {
+            // 削除ボタンを表示しない
             $("#delete").addClass("invisible");
             $("#modal-title").html("新規")
-            $('#displayId').html("新規");
             // 更新時
         } else {
+            // 削除ボタンを表示
             $("#delete").removeClass("invisible");
             $("#modal-title").html("更新")
-            $('#displayId').html(id);
 
             console.log("ajaxで参照処理");
+
+            // 押下したタスクIDの詳細情報を取得
             $.ajax({
                 url: 'http://3.132.116.53/tasks/' + id,
                 type: 'GET',
             })
                 .done(function (data) {
-                    $('input[name="title"]').val(data.title);
-                    $('input[name="detail"]').val(data.detail);
-                    $('input[name="finished"]').prop('checked', data.finished);
+                    $('input[name="title"]').val(data["data"]["title"]);
+                    $('input[name="body"]').val(data["data"]["body"]);
                 })
         }
     })
@@ -69,8 +70,6 @@ $(document).ready(function () {
 
     // 保存ボタンクリック自の動作
     $("button#save").on('click', function (e) {
-
-        id = $("#id").val();
         var parseJson = function (data) {
             var returnJson = {};
             for (idx = 0; idx < data.length; idx++) {
@@ -79,17 +78,14 @@ $(document).ready(function () {
             return returnJson;
         }
 
+        id = $("#id").val();
+
         data = $('#dataform').serializeArray();  // ①form to json
-            console.log(data);
         formdata = JSON.stringify(parseJson(data)); // ②json to 欲しい形
-            console.log(formdata);
 
         if ($("#id").val() == "") {
             console.log("ajaxで登録処理");
-            console.log(formdata);
-            console.log(formdata["id"]);
-            delete formdata.id;
-            console.log(formdata);
+            // delete formdata.id;
             $.ajax({
                 url: 'http://3.132.116.53/tasks',
                 type: 'post',
@@ -101,14 +97,14 @@ $(document).ready(function () {
         } else {
             console.log("ajaxで更新処理");
             // [WebAPI 更新に対応]
-            // $.ajax({
-            //     url: 'data/' + id,
-            //     type: 'update',
-            //     data: formdata,
-            // })
+            $.ajax({
+                url: 'data/' + id,
+                type: 'update',
+                data: formdata
+            })
             $("#myModal").modal('hide');
             myTable.ajax.reload(null, false);
-        }
+    }
 
         // 削除ボタンクリック時の動作
         $("button#delete").on('click', function (e) {
