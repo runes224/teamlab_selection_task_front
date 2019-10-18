@@ -10,7 +10,7 @@ $(document).ready(function () {
     myTable = $("#task-table").DataTable({
         // データソースの設定
         columns: [
-            {data : "id", width: "20"},
+            {data: "id", width: "20"},
             {data: "title", width: "20"},
             {data: "body", width: "20"},
             {data: "created_at", width: "20"},
@@ -18,6 +18,7 @@ $(document).ready(function () {
             {
                 data: "id",
                 width: "10",
+                // 編集ボタンの行をソートさせないようにする
                 orderable: false,
                 render: function (data) {
                     return '<a class="popup btn btn-info" data-id=' + data + ' href="#">&#x270f;</a>'
@@ -98,13 +99,13 @@ $(document).ready(function () {
             console.log("ajaxで更新処理");
             // [WebAPI 更新に対応]
             $.ajax({
-                url: 'data/' + id,
-                type: 'update',
+                url: 'http://3.132.116.53/tasks/' + id,
+                type: 'put',
                 data: formdata
             })
             $("#myModal").modal('hide');
             myTable.ajax.reload(null, false);
-    }
+        }
 
         // 削除ボタンクリック時の動作
         $("button#delete").on('click', function (e) {
