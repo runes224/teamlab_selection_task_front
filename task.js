@@ -3,7 +3,7 @@ $(document).ready(function () {
     // デフォルトの設定を変更
     $.extend($.fn.dataTable.defaults, {
         language: {
-            url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json"
+            url: "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json"
         }
     });
     // Datatableの設定
