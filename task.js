@@ -27,7 +27,7 @@ $(document).ready(function () {
         ],
         // [WebAPI 取得（一覧）に対応]
         ajax: {
-            url: '//3.132.116.53/tasks',
+            url: 'http://3.132.116.53/tasks',
             dataType: "json"
         }
     });
