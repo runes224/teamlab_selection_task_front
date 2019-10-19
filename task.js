@@ -27,7 +27,7 @@ $(document).ready(function () {
         ],
         // [WebAPI 取得（一覧）に対応]
         ajax: {
-            url: 'http://3.132.116.53/tasks',
+            url: '//3.132.116.53/tasks',
             dataType: "json"
         }
     });
@@ -58,7 +58,7 @@ $(document).ready(function () {
 
             // 押下したタスクIDの詳細情報を取得
             $.ajax({
-                url: 'http://3.132.116.53/tasks/' + id,
+                url: '//3.132.116.53/tasks/' + id,
                 type: 'GET',
             })
                 .done(function (data) {
@@ -91,7 +91,7 @@ $(document).ready(function () {
             // javascriptオブジェクトをJSON文字列へと変換
             formdataNew = JSON.stringify(formdata);
             $.ajax({
-                url: 'http://3.132.116.53/tasks',
+                url: '//3.132.116.53/tasks',
                 type: 'post',
                 data: formdataNew,
                 // dataType: 'json',
@@ -102,7 +102,7 @@ $(document).ready(function () {
             console.log("ajaxで更新処理");
             // [WebAPI 更新に対応]
             $.ajax({
-                url: 'http://3.132.116.53/tasks/' + id,
+                url: '//3.132.116.53/tasks/' + id,
                 type: 'put',
                 data: formdata
             })
@@ -117,7 +117,7 @@ $(document).ready(function () {
         id = $("#id").val();
         console.log("ajaxで削除処理");
         $.ajax({
-            url: 'http://3.132.116.53/tasks/' + id,
+            url: '//3.132.116.53/tasks/' + id,
             type: 'delete',
         });
         $("#myModal").modal('hide');
