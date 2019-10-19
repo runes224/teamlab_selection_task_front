@@ -98,11 +98,13 @@ $(document).ready(function () {
                     console.log(e);
                 },
                 dataType: "json",
-                contentType: "application/json"
+                contentType: "application/json",
+                success: function(jsonResponse) {
+                    // テーブル更新
+                    myTable.ajax.reload();
+                    $("#myModal").modal('hide');
+                },
             });
-            $("#myModal").modal('hide');
-            // myTable.ajax.reload();
-            $('#task-table').delay(5000).DataTable().ajax.reload();
         } else {
             console.log("ajaxで更新処理");
             // [WebAPI 更新に対応]
@@ -114,12 +116,17 @@ $(document).ready(function () {
                 error: function(e) {
                     console.log(e);
                 },
+                // レスポンスをJSONとしてパースする
                 dataType: "json",
-                contentType: "application/json"
+                // リクエストの Content-Type
+                contentType: "application/json",
+                success: function(jsonResponse) {
+                    // テーブル更新
+                    myTable.ajax.reload();
+                    $("#myModal").modal('hide');
+                },
             });
-            $("#myModal").modal('hide');
-            $('#task-table').delay(5000).DataTable().ajax.reload(null, false);
-            // myTable.ajax.reload(null, false);
+
         }
     })
 
@@ -131,14 +138,11 @@ $(document).ready(function () {
         $.ajax({
             url: '//3.132.116.53/tasks/' + id,
             type: 'delete',
+            success: function(jsonResponse) {
+                // テーブル更新
+                myTable.ajax.reload();
+                $("#myModal").modal('hide');
+            },
         });
-        $("#myModal").modal('hide');
-        console.log("リロード確認");
-        // myTable.ajax.reload(null, false);
-        $('#task-table').delay(5000).DataTable().ajax.reload();
     })
 });
-
-// TODO 新規作成時の自動リロード
-// TODO 削除時の自動リロード
-// TODO 更新時の自動リロード
