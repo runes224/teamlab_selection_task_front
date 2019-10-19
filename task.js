@@ -71,6 +71,7 @@ $(document).ready(function () {
 
     // 保存ボタンクリック自の動作
     $("button#save").on('click', function (e) {
+        id = $("#id").val();
         var parseJson = function (data) {
             var returnJson = {};
             for (idx = 0; idx < data.length; idx++) {
@@ -79,19 +80,21 @@ $(document).ready(function () {
             return returnJson;
         }
 
-        id = $("#id").val();
-
-        data = $('#dataform').serializeArray();  // ①form to json
-        formdata = JSON.stringify(parseJson(data)); // ②json to 欲しい形
-
+        // フォームデータを配列にする
+        data = $('#dataform').serializeArray();
+        // 配列の値を操作して、JSON文字列へと変換する
+        formdata = parseJson(data);
         if ($("#id").val() == "") {
             console.log("ajaxで登録処理");
-            // delete formdata.id;
+            // ID要素を削除
+            delete formdata.id;
+            // javascriptオブジェクトをJSON文字列へと変換
+            formdataNew = JSON.stringify(formdata);
             $.ajax({
                 url: 'http://3.132.116.53/tasks',
                 type: 'post',
-                data: formdata,
-                dataType: 'json',
+                data: formdataNew,
+                // dataType: 'json',
             })
             $("#myModal").modal('hide');
             myTable.ajax.reload();
@@ -106,19 +109,23 @@ $(document).ready(function () {
             $("#myModal").modal('hide');
             myTable.ajax.reload(null, false);
         }
+    })
 
-        // 削除ボタンクリック時の動作
-        $("button#delete").on('click', function (e) {
-            // AJAX処理
-            id = $("#id").val();
-            console.log("ajaxで削除処理");
-            $.ajax({
-                url: 'http://3.132.116.53/tasks/' + id,
-                type: 'delete',
-            })
-            $("#myModal").modal('hide');
-            myTable.ajax.reload(null, false);
-        })
+    // 削除ボタンクリック時の動作
+    $("button#delete").on('click', function (e) {
+        // AJAX処理
+        id = $("#id").val();
+        console.log("ajaxで削除処理");
+        $.ajax({
+            url: 'http://3.132.116.53/tasks/' + id,
+            type: 'delete',
+        });
+        $("#myModal").modal('hide');
+        myTable.ajax.reload(null, false);
 
     })
 });
+
+// TODO 新規登録
+// TODO 更新処理
+
