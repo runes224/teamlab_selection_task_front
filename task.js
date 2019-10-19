@@ -91,23 +91,35 @@ $(document).ready(function () {
             // javascriptオブジェクトをJSON文字列へと変換
             formdataNew = JSON.stringify(formdata);
             $.ajax({
-                url: '//3.132.116.53/tasks',
+                url: '//3.132.116.53/tasks/',
                 type: 'post',
                 data: formdataNew,
-                // dataType: 'json',
-            })
+                error: function(e) {
+                    console.log(e);
+                },
+                dataType: "json",
+                contentType: "application/json"
+            });
             $("#myModal").modal('hide');
-            myTable.ajax.reload();
+            // myTable.ajax.reload();
+            $('#task-table').delay(5000).DataTable().ajax.reload();
         } else {
             console.log("ajaxで更新処理");
             // [WebAPI 更新に対応]
+            formdataNew = JSON.stringify(formdata);
             $.ajax({
                 url: '//3.132.116.53/tasks/' + id,
                 type: 'put',
-                data: formdata
-            })
+                data: formdataNew,
+                error: function(e) {
+                    console.log(e);
+                },
+                dataType: "json",
+                contentType: "application/json"
+            });
             $("#myModal").modal('hide');
-            myTable.ajax.reload(null, false);
+            $('#task-table').delay(5000).DataTable().ajax.reload(null, false);
+            // myTable.ajax.reload(null, false);
         }
     })
 
@@ -121,11 +133,12 @@ $(document).ready(function () {
             type: 'delete',
         });
         $("#myModal").modal('hide');
-        myTable.ajax.reload(null, false);
-
+        console.log("リロード確認");
+        // myTable.ajax.reload(null, false);
+        $('#task-table').delay(5000).DataTable().ajax.reload();
     })
 });
 
-// TODO 新規登録
-// TODO 更新処理
-
+// TODO 新規作成時の自動リロード
+// TODO 削除時の自動リロード
+// TODO 更新時の自動リロード
