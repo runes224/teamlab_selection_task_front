@@ -1,4 +1,5 @@
 var myTable;
+var appPath = 'https://www.teamlab-selection-task.tk/tasks/';
 $(document).ready(function () {
     // デフォルトの設定を変更
     $.extend($.fn.dataTable.defaults, {
@@ -27,7 +28,7 @@ $(document).ready(function () {
         ],
         // [WebAPI 取得（一覧）に対応]
         ajax: {
-            url: 'http://3.132.116.53/tasks',
+            url: appPath,
             dataType: "json"
         }
     });
@@ -58,7 +59,7 @@ $(document).ready(function () {
 
             // 押下したタスクIDの詳細情報を取得
             $.ajax({
-                url: '//3.132.116.53/tasks/' + id,
+                url: appPath + id,
                 type: 'GET',
             })
                 .done(function (data) {
@@ -91,7 +92,7 @@ $(document).ready(function () {
             // javascriptオブジェクトをJSON文字列へと変換
             formdataNew = JSON.stringify(formdata);
             $.ajax({
-                url: '//3.132.116.53/tasks/',
+                url: appPath,
                 type: 'post',
                 data: formdataNew,
                 error: function(e) {
@@ -110,7 +111,7 @@ $(document).ready(function () {
             // [WebAPI 更新に対応]
             formdataNew = JSON.stringify(formdata);
             $.ajax({
-                url: '//3.132.116.53/tasks/' + id,
+                url: appPath + id,
                 type: 'put',
                 data: formdataNew,
                 error: function(e) {
@@ -136,7 +137,7 @@ $(document).ready(function () {
         id = $("#id").val();
         console.log("ajaxで削除処理");
         $.ajax({
-            url: '//3.132.116.53/tasks/' + id,
+            url: appPath + id,
             type: 'delete',
             success: function(jsonResponse) {
                 // テーブル更新
